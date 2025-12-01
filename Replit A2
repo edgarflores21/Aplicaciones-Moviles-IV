@@ -1,0 +1,37 @@
+  switch opcion {
+
+    case 1:
+        var seguirDepositando = true
+
+        while seguirDepositando {
+            print("\nIngrese la cantidad a depositar:")
+            if let entrada = readLine(), let cantidad = Double(entrada), cantidad > 0 {
+                saldo += cantidad
+                print("Depósito realizado. Saldo actual: $\(saldo)")
+            } else {
+                print("Cantidad inválida.")
+            }
+
+            print("¿Desea realizar otro depósito? (Si/No):")
+            if let respuesta = readLine()?.lowercased(), respuesta == "no" {
+                seguirDepositando = false
+            }
+        }
+
+    
+    case 2:
+        print("\nEsta opción aún no está disponible.")
+
+    case 3:
+        print("\nEsta opción aún no está disponible.")
+
+    case 4:
+        print("\nLa sesión ha sido cerrada.")
+        continuar = false
+
+    
+    default:
+        print("\nOpción no válida, intente de nuevo.")
+    }
+
+} while continuar
