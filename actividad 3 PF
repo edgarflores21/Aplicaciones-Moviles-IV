@@ -1,0 +1,98 @@
+import Foundation
+
+var saldo: Double = 0.0
+var opcion = 0
+var continuar = true
+var primeraVezRetiro = true
+
+repeat {
+    print("\n===== BANCO DE mexico IV =====")
+    print("1. Depósito")
+    print("2. Retiro")
+    print("3. Saldo")
+    print("4. Salir")
+    print("==========================")
+    print("Seleccione una opción:")
+
+    if let entrada = readLine(), let numero = Int(entrada) {
+        opcion = numero
+    } else {
+        opcion = 0
+    }
+
+    switch opcion {
+
+    case 1:
+        var seguirDepositando = true
+
+        while seguirDepositando {
+            print("\nIngrese la cantidad a depositar:")
+            if let entrada = readLine(), let cantidad = Double(entrada), cantidad > 0 {
+                saldo += cantidad
+                print("Depósito realizado. Saldo actual: $\(saldo)")
+            } else {
+                print("Cantidad inválida.")
+            }
+
+            print("¿Desea realizar otro depósito? (Si/No):")
+            if let respuesta = readLine()?.lowercased(), respuesta == "no" {
+                seguirDepositando = false
+            }
+        }
+
+    case 2:
+        if primeraVezRetiro {
+            if saldo == 0 {
+                print("\nNo cuenta con saldo en su cuenta.")
+                primeraVezRetiro = false
+                break
+            }
+        }
+
+        primeraVezRetiro = false
+        var seguirRetirando = true
+
+        while seguirRetirando {
+            print("\nIngrese la cantidad a retirar:")
+            if let entrada = readLine(), let cantidad = Double(entrada), cantidad > 0 {
+
+                if cantidad <= saldo {
+                    saldo -= cantidad
+                    print("Retiro realizado. Saldo actual: $\(saldo)")
+                } else {
+                    print("No cuenta con el saldo ingresado.")
+                }
+
+            } else {
+                print("Cantidad inválida.")
+            }
+
+            print("¿Desea realizar otro retiro? (Si/No):")
+            if let respuesta = readLine()?.lowercased(), respuesta == "no" {
+                seguirRetirando = false
+
+                print("¿Desea realizar otra operación? (Si/No):")
+                if let continuarResp = readLine()?.lowercased(), continuarResp == "no" {
+                    continuar = false
+                }
+            }
+        }
+
+    case 3:
+        print("\nSu saldo actual es: $\(saldo)")
+
+        print("¿Desea realizar otra operación? (Si/No):")
+        if let respuesta = readLine()?.lowercased(), respuesta == "no" {
+            continuar = false
+        }
+
+    case 4:
+        print("\nLa sesión ha sido cerrada.")
+        continuar = false
+
+    default:
+        print("\nOpción no válida, intente nuevamente.")
+    }
+
+} while continuar
+
