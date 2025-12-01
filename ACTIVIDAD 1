@@ -1,0 +1,91 @@
+import Foundation
+
+
+struct Articulo {
+    let nombre: String
+    let precio: Double
+    var stock: Int
+}
+
+var articulos = [
+    Articulo(nombre: "Playera", precio: 250.0, stock: 30),
+    Articulo(nombre: "Pantalón", precio: 600.0, stock: 20),
+    Articulo(nombre: "Sudadera", precio: 850.0, stock: 15),
+    Articulo(nombre: "Tenis", precio: 1200.0, stock: 10)
+]
+
+func mostrarArticulos() {
+    print("\nArtículos disponibles:")
+    for (index, art) in articulos.enumerated() {
+        print("\(index + 1). \(art.nombre) - $\(art.precio) - Stock: \(art.stock)")
+    }
+    print("5. Regresar al menú principal")
+}
+
+var opcion = 0
+
+repeat {
+    print("\n===== MENÚ PRINCIPAL =====")
+    print("1. Ver artículos y comprar")
+    print("2. Salir")
+    print("==========================")
+    print("Seleccione una opción:")
+
+    if let input = readLine(), let numero = Int(input) {
+        opcion = numero
+    } else {
+        opcion = 0
+    }
+
+    switch opcion {
+    case 1:
+        var seguirComprando = true
+        while seguirComprando {
+            mostrarArticulos()
+            print("\nSeleccione el número del artículo que desea comprar:")
+
+            if let inputArt = readLine(), let numArt = Int(inputArt) {
+                
+                if numArt == 5 {
+                    seguirComprando = false
+                    continue
+                }
+                
+                if numArt > 0 && numArt <= articulos.count {
+                    let articulo = articulos[numArt - 1]
+                    
+                    print("Seleccionó: \(articulo.nombre)")
+                    print("Precio: $\(articulo.precio)")
+                    print("¿Cuántas unidades desea comprar?")
+                    
+                    if let inputCant = readLine(),
+                       let cantidad = Int(inputCant),
+                       cantidad > 0 {
+                        
+                        if cantidad <= articulo.stock {
+                            let total = articulo.precio * Double(cantidad)
+                            print("\nCompra realizada con éxito")
+                            print("Artículo: \(articulo.nombre)")
+                            print("Cantidad: \(cantidad)")
+                            print("Total a pagar: $\(total)")
+                        } else {
+                            print("\nNo hay suficiente stock.")
+                        }
+                        
+                    } else {
+                        print("\nCantidad inválida.")
+                    }
+                } else {
+                    print("\nOpción inválida.")
+                }
+            }
+        }
+        
+    case 2:
+        print("\nGracias por visitar boutique Norma online.")
+
+    default:
+        print("\nOpción no válida. Intente nuevamente.")
+    }
+
+} while opcion != 2
